@@ -33,6 +33,7 @@ public class AskableInformation
 
   private BeanInformation beanInfo;
 
+
   private static final Predicate<AccessibleObject> IS_QUERYABLE = elem -> elem.isAnnotationPresent(AskMe.class)
                                                                           || elem.isAnnotationPresent(AskMeAs.class);
 
