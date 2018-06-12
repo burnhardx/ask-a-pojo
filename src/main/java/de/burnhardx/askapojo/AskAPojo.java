@@ -3,7 +3,9 @@ package de.burnhardx.askapojo;
 import java.util.Arrays;
 import java.util.List;
 
-import de.burnhardx.askapojo.search.AskForFields;
+import de.burnhardx.askapojo.search.AnswersQuestionForField;
+import de.burnhardx.askapojo.search.AnswersQuestionForMethod;
+import de.burnhardx.askapojo.search.HasAnswers;
 import de.burnhardx.askapojo.search.model.Answer;
 import de.burnhardx.askapojo.search.model.Question;
 import de.burnhardx.askapojo.utils.AskableInformation;
@@ -59,21 +61,15 @@ public class AskAPojo
 
   private Answer ask(Question question)
   {
-    if (information.getFields().containsKey(question.getTarget()))
+    HasAnswers hasAnswers = information.getFields().containsKey(question.getTarget())
+      ? new AnswersQuestionForField() : new AnswersQuestionForMethod();
+    try
     {
-      try
-      {
-        return AskForFields.ask(question, information, source);
-      }
-      catch (ReflectiveOperationException e)
-      {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
+      return hasAnswers.ask(question, information, source);
     }
-    else if (information.getMethods().containsKey(question.getTarget()))
+    catch (ReflectiveOperationException e)
     {
-
+      log.error("reflective operation on pojo failed {}", e);
     }
     return new Answer(null);
   }

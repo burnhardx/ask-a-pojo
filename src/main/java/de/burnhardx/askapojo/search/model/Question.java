@@ -48,6 +48,26 @@ public class Question
     }
   }
 
+  /**
+   * Returns true if the target in this question can be accessed directly.
+   * 
+   * @param queryDescriptors current list of {@link ConditionDescriptor}.
+   */
+  public boolean targetCanBeAccessedDirectly(List<ConditionDescriptor> queryDescriptors)
+  {
+    if (this.getConditions().isEmpty())
+    {
+      return true;
+    }
+    if (this.getConditions().size() != queryDescriptors.size())
+    {
+      if (!this.getConditions().isEmpty() && queryDescriptors.isEmpty())
+      {
+        return true;
+      }
+    }
+    return false;
+  }
 
   /**
    * Returns a list of {@link ConditionDescriptor}, which will later be used to check the conditions of this

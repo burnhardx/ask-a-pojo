@@ -8,6 +8,7 @@ import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +46,25 @@ public class BeanInformation
       log.error("can not instantiate beaninfo from {}", clazz, e);
       return new BeanInformation(new ArrayList<>(), new ArrayList<>());
     }
+  }
+
+  /**
+   * Returns a {@link PropertyDescriptor} if the given method name equals whether readMethod or writeMethod.
+   * 
+   * @param method method to search belonging propertydescriptor.
+   */
+  public PropertyDescriptor getPropertyDescriptorByMethod(String methodName)
+  {
+    Predicate<PropertyDescriptor> equalsName = descriptor -> (descriptor.getReadMethod() != null
+                                                              && descriptor.getReadMethod()
+                                                                           .getName()
+                                                                           .equals(methodName))
+                                                             || (descriptor.getWriteMethod() != null
+                                                                 && descriptor.getWriteMethod()
+                                                                              .getName()
+                                                                              .equals(methodName));
+
+    return properties.stream().filter(equalsName).findAny().orElse(null);
   }
 
   /**

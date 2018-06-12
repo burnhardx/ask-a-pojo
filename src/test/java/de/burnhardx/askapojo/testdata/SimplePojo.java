@@ -8,8 +8,11 @@ import java.util.UUID;
 
 import de.burnhardx.askapojo.annotations.AskMe;
 import de.burnhardx.askapojo.annotations.AskMeAs;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
 /**
@@ -31,8 +34,38 @@ public class SimplePojo
 
   private Map<String, SimplePojo> complexMap;
 
+  @Setter(AccessLevel.NONE)
+  private int valueWithoutSetter = 0;
+
+  @Getter(AccessLevel.NONE)
+  private final int noNormalGetter = 666;
+
   @AskMeAs("list")
   private List<SimplePojo> complexList;
+
+  @AskMe
+  public void simpleVoidCallWithoutParameters()
+  {
+    valueWithoutSetter++;
+  }
+
+  @AskMe
+  public Integer readValueWithoutGetter()
+  {
+    return noNormalGetter;
+  }
+
+  @AskMe
+  public List<SimplePojo> anotherListGetter()
+  {
+    return complexList;
+  }
+
+  @AskMe
+  public Map<String, SimplePojo> anotherMapGetter()
+  {
+    return complexMap;
+  }
 
   /**
    * @return uuid

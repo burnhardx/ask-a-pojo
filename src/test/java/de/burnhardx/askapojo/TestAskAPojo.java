@@ -2,7 +2,6 @@ package de.burnhardx.askapojo;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import de.burnhardx.askapojo.testdata.SimplePojo;
@@ -54,7 +53,7 @@ public class TestAskAPojo
   }
 
   @Test
-  public void accessWithNonsense()
+  public void willReturnNullIfQuestionsAreNonsense()
   {
     assertThat(askAPojo.about("nonsense").getResult()).isNull();
     assertThat(askAPojo.about("nonsense").getMaking()).isNull();
@@ -63,12 +62,38 @@ public class TestAskAPojo
   }
 
   @Test
-  @Ignore
+  public void canInvokeVoidMethodsWithoutParameters()
+  {
+    askAPojo.about("list[1]/simpleVoidCallWithoutParameters");
+    assertThat(((SimplePojo)askAPojo.about("list[1]").getResult()).getValueWithoutSetter()).isEqualTo(1);
+  }
+
+  @Test
+  public void canInvokeGettersWithoutPropertyDescriptors()
+  {
+    assertThat(askAPojo.about("list[0]/readValueWithoutGetter").getResult()).isEqualTo(666);
+  }
+
+  @Test
   public void accessMethods()
   {
     String uuid = (String)askAPojo.about("uuid").getResult();
     assertThat(uuid).isNotNull();
     assertThat(uuid).startsWith("XYZ");
+  }
+
+  @Test
+  public void findsEntriesInListsByGetters()
+  {
+    assertThat(((SimplePojo)askAPojo.about("anotherListGetter[name==stefan]")
+                                    .getResult()).getAge()).isEqualTo(4711);
+  }
+
+  @Test
+  public void findsEntriesInMapsByGetters()
+  {
+    assertThat(((SimplePojo)askAPojo.about("anotherMapGetter[name==julio]")
+                                    .getResult()).getAge()).isEqualTo(78);
   }
 
 }
