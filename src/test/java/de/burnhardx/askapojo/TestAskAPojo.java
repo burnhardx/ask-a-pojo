@@ -2,8 +2,13 @@ package de.burnhardx.askapojo;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.junit.Test;
 
+import de.burnhardx.askapojo.exceptions.EmptyResultInAnswer;
+import de.burnhardx.askapojo.search.model.Answer;
 import de.burnhardx.askapojo.testdata.SimplePojo;
 
 
@@ -94,6 +99,27 @@ public class TestAskAPojo
   {
     assertThat(((SimplePojo)askAPojo.about("anotherMapGetter[name==julio]")
                                     .getResult()).getAge()).isEqualTo(78);
+  }
+
+  @Test
+  public void findAndChangeValuesInFluentWay() throws EmptyResultInAnswer, ReflectiveOperationException
+  {
+    Answer about = askAPojo.about("list[name==stefan]");
+    int ageBeforeUpdate = ((SimplePojo)about.getResult()).getAge();
+    about.updatePojo().change("age").to(4).execute();
+    assertThat(((SimplePojo)about.getResult()).getAge()).isEqualTo(4);
+    about.updatePojo().change("age").to(ageBeforeUpdate).execute();
+    assertThat(((SimplePojo)about.getResult()).getAge()).isEqualTo(ageBeforeUpdate);
+
+    List<SimplePojo> childsOfStefan = Collections.singletonList(SimplePojo.builder()
+                                                                          .name("maxi")
+                                                                          .age(999)
+                                                                          .build());
+
+    about.updatePojo().change("complexList").to(childsOfStefan).execute();
+
+    Answer answerMaxi = askAPojo.about("list[name==stefan]/list[name==maxi]");
+    assertThat(((SimplePojo)answerMaxi.getResult()).getAge()).isEqualTo(999);
   }
 
 }

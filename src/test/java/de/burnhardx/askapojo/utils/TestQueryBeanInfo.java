@@ -7,7 +7,7 @@ import java.beans.PropertyDescriptor;
 
 import org.junit.Test;
 
-import de.burnhardx.askapojo.testdata.AnyPojo;
+import de.burnhardx.askapojo.testdata.SimplePojo;
 
 
 /**
@@ -24,7 +24,7 @@ public class TestQueryBeanInfo
   @Test
   public void returnsMatchingPropertyDescriptorByFieldName()
   {
-    BeanInformation underTest = BeanInformation.of(AnyPojo.class);
+    BeanInformation underTest = BeanInformation.of(SimplePojo.class);
     assertThat(underTest.getPropertyDescriptor("noSetter").getWriteMethod()).isNull();
     assertThat(underTest.getPropertyDescriptor("complexList")
                         .getReadMethod()
@@ -39,7 +39,7 @@ public class TestQueryBeanInfo
   @Test
   public void returnsMatchingMethodDescriptorByMethodName()
   {
-    BeanInformation underTest = BeanInformation.of(AnyPojo.class);
+    BeanInformation underTest = BeanInformation.of(SimplePojo.class);
     assertThat(underTest.getMethodDescriptor("uuid").getName()).isEqualTo("uuid");
     assertThat(underTest.getMethodDescriptor("notThere")).isNull();
   }

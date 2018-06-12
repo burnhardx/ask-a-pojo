@@ -15,6 +15,11 @@ import de.burnhardx.askapojo.search.model.Question;
 import de.burnhardx.askapojo.utils.AskableInformation;
 
 
+/**
+ * Answersearch related to methods.
+ * 
+ * @author burnhardx
+ */
 public class AnswersQuestionForMethod implements HasAnswers
 {
 

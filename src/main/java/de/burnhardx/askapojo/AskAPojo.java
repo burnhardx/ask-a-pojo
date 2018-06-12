@@ -9,6 +9,7 @@ import de.burnhardx.askapojo.search.HasAnswers;
 import de.burnhardx.askapojo.search.model.Answer;
 import de.burnhardx.askapojo.search.model.Question;
 import de.burnhardx.askapojo.utils.AskableInformation;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -21,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AskAPojo
 {
 
+  @Getter
   private Object source;
 
   private final AskableInformation information;

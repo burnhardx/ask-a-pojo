@@ -118,7 +118,7 @@ public interface HasAnswers
       }
       index++;
     }
-    return result.size() == 1 ? result.get(0) : new Answer(result);
+    return result.size() == 1 ? result.get(0) : new Answer(result.size() > 0 ? result : null);
   }
 
   default boolean conditionsFulfilled(Object target, List<ConditionDescriptor> conditionDescriptors)

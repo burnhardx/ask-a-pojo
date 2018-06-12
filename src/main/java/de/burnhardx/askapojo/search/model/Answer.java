@@ -3,6 +3,7 @@ package de.burnhardx.askapojo.search.model;
 import java.beans.PropertyDescriptor;
 
 import de.burnhardx.askapojo.AskAPojo;
+import de.burnhardx.askapojo.change.ChangeValues;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Value;
@@ -58,5 +59,15 @@ public class Answer
     this.making = null;
   }
 
+  public ChangeValues updatePojo()
+  {
+    return new ChangeValues(this);
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T> T getResultAs(Class<T> clazz)
+  {
+    return (T)this.result;
+  }
 
 }

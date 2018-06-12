@@ -11,15 +11,13 @@ import de.burnhardx.askapojo.search.model.Answer;
 import de.burnhardx.askapojo.search.model.ConditionDescriptor;
 import de.burnhardx.askapojo.search.model.Question;
 import de.burnhardx.askapojo.utils.AskableInformation;
-import lombok.extern.slf4j.Slf4j;
 
 
 /**
- * Utility class to search for fields.
+ * Answersearch related to fields.
  * 
  * @author burnhardx
  */
-@Slf4j
 public class AnswersQuestionForField implements HasAnswers
 {
 

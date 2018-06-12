@@ -1,7 +1,9 @@
 package de.burnhardx.askapojo.testdata;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -44,6 +46,9 @@ public class SimplePojo
   private List<SimplePojo> complexList;
 
   @AskMe
+  private List<Comment> comments;
+
+  @AskMe
   public void simpleVoidCallWithoutParameters()
   {
     valueWithoutSetter++;
@@ -74,6 +79,17 @@ public class SimplePojo
   public String uuid()
   {
     return "XYZ" + UUID.randomUUID().toString();
+  }
+
+  @AskMe
+  public void addComment(String title, Date date)
+  {
+    if (comments == null)
+    {
+      comments = new ArrayList<>();
+    }
+    Comment newComment = Comment.builder().id(UUID.randomUUID().toString()).title(title).date(date).build();
+    comments.add(newComment);
   }
 
   public static SimplePojo testSet()
