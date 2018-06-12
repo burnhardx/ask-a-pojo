@@ -53,6 +53,15 @@ public class AskableInformation
     {
       name = clazz.isAnnotationPresent(AskMeAs.class) ? clazz.getAnnotation(AskMeAs.class).value()
         : clazz.getName();
+
+      Arrays.asList(clazz.getDeclaredFields())
+            .stream()
+            .filter(field -> !field.isAnnotationPresent(AskMe.class)
+                             && !field.isAnnotationPresent(AskMeAs.class))
+            .filter(field -> beanInformation.getPropertyDescriptor(field.getName()) != null)
+            .forEach(field -> {
+              fields.put(field.getName(), beanInformation.getPropertyDescriptor(field.getName()));
+            });
     }
     Arrays.asList(clazz.getDeclaredFields()).stream().filter(IS_QUERYABLE).forEach(field -> {
       fields.put(getAskableName(field), beanInformation.getPropertyDescriptor(field.getName()));

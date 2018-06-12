@@ -1,11 +1,13 @@
-package de.burnhardx.askapojo.search;
+package de.burnhardx.askapojo.search.model;
 
+import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import de.burnhardx.askapojo.utils.AskableInformation;
 import lombok.Value;
 
 
@@ -47,5 +49,29 @@ public class Question
   }
 
 
+  /**
+   * Returns a list of {@link ConditionDescriptor}, which will later be used to check the conditions of this
+   * {@link Question}.
+   * 
+   * @param fieldType type to resolve the attributes of the conditions.
+   */
+  public List<ConditionDescriptor> createConditionDescriptors(Class<?> fieldType)
+  {
+    if (this.getConditions().isEmpty())
+    {
+      return new ArrayList<>();
+    }
+    AskableInformation fieldInfo = AskableInformation.of(fieldType);
+    List<ConditionDescriptor> result = new ArrayList<>();
+    for ( Condition condition : this.getConditions() )
+    {
+      PropertyDescriptor fieldDescriptor = fieldInfo.getFields().get(condition.getAttribute());
+      if (fieldDescriptor != null)
+      {
+        result.add(ConditionDescriptor.builder().condition(condition).descriptor(fieldDescriptor).build());
+      }
+    }
+    return result;
+  }
 
 }

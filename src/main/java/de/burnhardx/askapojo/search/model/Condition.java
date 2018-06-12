@@ -1,4 +1,4 @@
-package de.burnhardx.askapojo.search;
+package de.burnhardx.askapojo.search.model;
 
 import lombok.Builder;
 import lombok.Value;
@@ -30,13 +30,22 @@ public class Condition
   {
     if (!condition.contains("="))
     {
-      return new Condition(condition, null, null);
+      return new Condition(condition.substring(0, condition.indexOf(']')), null, null);
     }
     Operator operator = Operator.inString(condition);
     int operatorPos = condition.indexOf(operator.getSymbol());
     String attribute = condition.substring(0, operatorPos);
     String value = condition.substring(operatorPos + 2, condition.indexOf(']'));
     return new Condition(attribute, operator, value);
+  }
+
+  /**
+   * @param toMatch
+   * @return
+   */
+  public boolean matches(Object toMatch)
+  {
+    return operator.matches(toMatch, getValue());
   }
 
 }

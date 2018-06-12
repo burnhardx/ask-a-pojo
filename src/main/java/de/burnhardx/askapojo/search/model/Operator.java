@@ -1,4 +1,4 @@
-package de.burnhardx.askapojo.search;
+package de.burnhardx.askapojo.search.model;
 
 import java.util.Arrays;
 
@@ -29,6 +29,38 @@ public enum Operator
   }
 
   /**
+   * Matches the given value against the given comparative.
+   * 
+   * @param value
+   * @param comparative
+   */
+  public boolean matches(Object value, String comparative)
+  {
+    if (value == null)
+    {
+      return false;
+    }
+    String stringValue = value.toString();
+    if (this == Operator.EQUAL)
+    {
+      return stringValue.equals(comparative);
+    }
+    else if (this == Operator.STARTS_WITH)
+    {
+      return stringValue.startsWith(comparative);
+    }
+    else if (this == Operator.ENDS_WITH)
+    {
+      return stringValue.endsWith(comparative);
+    }
+    else if (this == Operator.CONTAINS)
+    {
+      return stringValue.contains(comparative);
+    }
+    return false;
+  }
+
+  /**
    * Returns a feasible {@link Operator} or null.
    * 
    * @param query
@@ -46,12 +78,6 @@ public enum Operator
                  .filter(op -> op.getSymbol().equals(operator))
                  .findAny()
                  .orElse(null);
-  }
-
-  public static void main(String[] args)
-  {
-    String sd = "hu*=ssj";
-    System.err.println(sd.substring(sd.indexOf('=') - 1, sd.indexOf('=') + 1));
   }
 
 }

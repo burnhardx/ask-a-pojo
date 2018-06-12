@@ -4,6 +4,10 @@ import static com.google.common.truth.Truth.assertThat;
 
 import org.junit.Test;
 
+import de.burnhardx.askapojo.search.model.Condition;
+import de.burnhardx.askapojo.search.model.Operator;
+import de.burnhardx.askapojo.search.model.Question;
+
 
 /**
  * Test cases for {@link Question}.

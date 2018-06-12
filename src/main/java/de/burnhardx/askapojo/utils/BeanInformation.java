@@ -38,7 +38,7 @@ public class BeanInformation
     {
       BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
       return new BeanInformation(Arrays.asList(beanInfo.getPropertyDescriptors()),
-                               Arrays.asList(beanInfo.getMethodDescriptors()));
+                                 Arrays.asList(beanInfo.getMethodDescriptors()));
     }
     catch (IntrospectionException e)
     {

@@ -1,8 +1,21 @@
 package de.burnhardx.askapojo;
 
+import java.util.Arrays;
+import java.util.List;
+
+import de.burnhardx.askapojo.search.AskForFields;
+import de.burnhardx.askapojo.search.model.Answer;
+import de.burnhardx.askapojo.search.model.Question;
 import de.burnhardx.askapojo.utils.AskableInformation;
+import lombok.extern.slf4j.Slf4j;
 
 
+/**
+ * Wrapper for Object questions.
+ * 
+ * @author burnhardx
+ */
+@Slf4j
 public class AskAPojo
 {
 
@@ -10,6 +23,11 @@ public class AskAPojo
 
   private final AskableInformation information;
 
+  /**
+   * Initialized with an object to search in.
+   * 
+   * @param source
+   */
   public AskAPojo(Object source)
   {
     super();
@@ -17,10 +35,47 @@ public class AskAPojo
     this.information = AskableInformation.of(source.getClass());
   }
 
-  public Object about(String question)
+  /**
+   * Returns an answer
+   * 
+   * @param question
+   * @return
+   */
+  public Answer about(String question)
   {
+    List<String> questions = Arrays.asList(question.split("/"));
+    AskAPojo searchIn = this;
+    Answer answer = null;
+    for ( String query : questions )
+    {
+      answer = searchIn.ask(Question.fromString(query));
+      if (answer.getResult() != null)
+      {
+        searchIn = new AskAPojo(answer.getResult());
+      }
+    }
+    return answer;
+  }
 
-    return null;
+  private Answer ask(Question question)
+  {
+    if (information.getFields().containsKey(question.getTarget()))
+    {
+      try
+      {
+        return AskForFields.ask(question, information, source);
+      }
+      catch (ReflectiveOperationException e)
+      {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+    else if (information.getMethods().containsKey(question.getTarget()))
+    {
+
+    }
+    return new Answer(null);
   }
 
 }

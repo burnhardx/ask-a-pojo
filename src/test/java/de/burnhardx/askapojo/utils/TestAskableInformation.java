@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import de.burnhardx.askapojo.annotations.AskMe;
 import de.burnhardx.askapojo.annotations.AskMeAs;
-import de.burnhardx.askapojo.testdata.AnyPojo;
+import de.burnhardx.askapojo.testdata.SimplePojo;
 
 
 /**
@@ -25,10 +25,11 @@ public class TestAskableInformation
   public void hasInformationAboutFieldsThatAreAnnotatedAsAskMe()
   {
 
-    AskableInformation underTest = AskableInformation.of(AnyPojo.class);
+    AskableInformation underTest = AskableInformation.of(SimplePojo.class);
     assertThat(underTest.isAskable()).isTrue();
     assertThat(underTest.getName()).isEqualTo("dude");
     assertThat(underTest.getFields().get("list").getReadMethod().getName()).isEqualTo("getComplexList");
+    assertThat(underTest.getFields().get("name").getReadMethod().getName()).isEqualTo("getName");
   }
 
   /**
@@ -38,7 +39,7 @@ public class TestAskableInformation
   @Test
   public void hasInformationAboutMethodsThatAreAnnotatedAsAskMe()
   {
-    AskableInformation underTest = AskableInformation.of(AnyPojo.class);
+    AskableInformation underTest = AskableInformation.of(SimplePojo.class);
     assertThat(underTest.getMethods().containsKey("uuid")).isTrue();
   }
 
